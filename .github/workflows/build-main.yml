@@ -15,6 +15,7 @@ jobs:
 
       - name: Install LXD
         run: |
+          sudo systemctl start snapd.service
           sudo snap install lxd
           sudo usermod --append --groups lxd $(whoami)
           sudo lxd init --auto
