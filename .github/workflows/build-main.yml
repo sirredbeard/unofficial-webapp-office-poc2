@@ -31,7 +31,7 @@ jobs:
           sed -i '/      - gcc-multilib/d' epiphany-snapcraft
           sed -i '/      - g++-multilib/d' epiphany-snapcraft
           
-          # Changes below should match the amd64 changes
+          # Changes should match the amd64 changes below
 
           # Change name
           sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
