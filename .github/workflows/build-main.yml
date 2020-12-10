@@ -7,30 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
-#    container:
-#      image: snapcore/snapcraft:edge
+    container:
+      image: sirredbeard/snap-build
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Install LXD
-        run: |
-          sudo apt update
-          sudo apt -y upgrade
-          sudo apt -y install snapd
-          sudo snap install lxd
-          sudo usermod --append --groups lxd $(whoami)
-          sudo lxd init --auto
-
-  #    - name: Install multipass
-  #      run: |
-  #        sudo snap install multipass --classic
-       
-  #    - name: Upgrade Snapcraft container to Bionic
-  #      run: |
-  #        sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list
-  #        sudo apt-get -y update
-  #        sudo apt-get -y dist-upgrade -o APT::Immediate-Configure=0
 
       - name: Download upstream epiphany snap
         run: snap download epiphany
@@ -48,9 +29,15 @@ jobs:
           sed '/      cp/d' epiphany-snapcraft >> epiphany-snapcraft-2
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft-2 >> snapcraft.yaml
           
-      - name: Build modified snapcraft.yaml
-        run: |
-          snapcraft build --use-lxd
+      - name: Build snap on Launchpad using remote-build
+        env:
+          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
+        run: |        
+          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
+          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          snapcraft remote-build --launchpad-accept-public-upload --build-on=arm64,armhf,amd64,i386
 
       - name: Push .snap to Snapcraft.io
         env:
@@ -58,4 +45,4 @@ jobs:
         run: |
           mkdir .snapcraft
           echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
-          snapcraft push --release=candidate *.snap
+          snapcraft push --release=edge *.snap
