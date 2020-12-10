@@ -11,15 +11,18 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Download epiphany snap
+      - name: Install snapcraft
+        run: snap install snapcraft
+
+      - name: Download upstream epiphany snap
         run: snap download epiphany
 
-      - name: Extract epiphany snap
+      - name: Extract upstream epiphany snap
         run: |
           snapfile=$(ls | grep .snap)
           unsquashfs -d epiphanysnap $snapfile
           
-      - name: Extract epiphany snapcraft.yaml
+      - name: Extract upstream epiphany snapcraft.yaml to epiphany-snapcraft
         run: cp epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
 
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
