@@ -38,6 +38,7 @@ jobs:
           sed -i '/      cp/d' epiphany-snapcraft
           sed -i '/      - gcc-multilib/d' epiphany-snapcraft
           sed -i '/      - g++-multilib/d' epiphany-snapcraft
+          echo "      - -usr/share/help*" >> epiphany-snapcraft
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
           
       - name: Build snap on Launchpad using remote-build
@@ -89,6 +90,7 @@ jobs:
           sed -i 's/  epiphany:/  unofficial-webapp-office:/g' epiphany-snapcraft
           sed -i '/    desktop: usr\/share\/applications\/org.gnome.Epiphany.desktop/d' epiphany-snapcraft
           sed -i '/      cp/d' epiphany-snapcraft
+          echo "      - -usr/share/help*" >> epiphany-snapcraft
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
           
       - name: Build snap on Launchpad using remote-build
