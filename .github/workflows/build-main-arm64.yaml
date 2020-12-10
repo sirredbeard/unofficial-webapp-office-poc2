@@ -1,0 +1,59 @@
+name: build-main-arm64
+
+on:
+  push:
+    branches: [ arm64 ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    container:
+      image: sirredbeard/snap-build
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download upstream epiphany snap
+        run: snap download epiphany
+
+      - name: Extract upstream epiphany snap
+        run: |
+          snapfile=$(ls | grep .snap)
+          unsquashfs -d epiphanysnap $snapfile
+          rm $snapfile
+          
+      - name: Extract upstream epiphany snapcraft.yaml to epiphany-snapcraft
+        run: cp epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
+
+      - name: Patch epiphany-snapcraft creating snapcraft.yaml
+        run: |
+          sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
+          sed -i "s/adopt-info: epiphany/version: '3.0'/g" epiphany-snapcraft
+          sed -i 's/summary: Web browser for GNOME/summary: unofficial-webapp-office based on GNOME Web/g' epiphany-snapcraft
+          sed -i '/passthrough:/d' epiphany-snapcraft
+          sed -i '/  license: GPL-3.0+/d' epiphany-snapcraft
+          sed -i '/  title: GNOME Web/d' epiphany-snapcraft
+          sed -i 's/  epiphany:/  unofficial-webapp-office:/g' epiphany-snapcraft
+          sed -i '/    desktop: usr\/share\/applications\/org.gnome.Epiphany.desktop/d' epiphany-snapcraft
+          sed -i '/      cp/d' epiphany-snapcraft
+          sed -i '/      - gcc-multilib/d' epiphany-snapcraft
+          sed -i '/      - g++-multilib/d' epiphany-snapcraft
+          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
+          
+      - name: Build snap on Launchpad using remote-build
+        env:
+          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
+        run: |        
+          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
+          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          snapcraft remote-build --launchpad-accept-public-upload --build-on=arm64
+
+      - name: Push .snap to Snapcraft.io
+        env:
+          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
+        run: |
+          mkdir .snapcraft
+          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
+          snapcraft upload --release=edge *.snap
