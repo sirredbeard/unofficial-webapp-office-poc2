@@ -27,7 +27,6 @@ jobs:
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
         run: |
           sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
-          sed -i 's/adopt-info: epiphany/version: 3.0/g' epiphany-snapcraft
           sed -i 's/summary: Web browser for GNOME/summary: unofficial-webapp-office based on GNOME Web/g' epiphany-snapcraft
           sed -i '/      cp/d' epiphany-snapcraft
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
@@ -48,4 +47,4 @@ jobs:
         run: |
           mkdir .snapcraft
           echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
-          snapcraft push --release=edge *.snap
+          snapcraft upload --release=edge *.snap
