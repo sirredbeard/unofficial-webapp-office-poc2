@@ -19,6 +19,12 @@ jobs:
   #    - name: Install multipass
   #      run: |
   #        sudo snap install multipass --classic
+       
+      - name: Upgrade Snapcraft container to Bionic
+        run: |
+          sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list
+          sudo apt update
+          sudo apt -y dist-upgrade
 
       - name: Download upstream epiphany snap
         run: snap download epiphany
