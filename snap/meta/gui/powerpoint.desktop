@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=3.0
+Name=PowerPoint
+GenericName=PowerPoint
+Comment=PowerPoint
+Type=Application
+Icon=${SNAP}/meta/gui/powerpoint.png
+Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/epiphany_epiphany.desktop /snap/bin/epiphany --application-mode https://www.office.com/launch/powerpoint
+StartupNotify=true
+Terminal=false
+Keywords=PowerPoint,presentation,ppt
+Categories=Office;Presentation;GTK

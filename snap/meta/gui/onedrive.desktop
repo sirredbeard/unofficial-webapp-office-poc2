@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=3.0
+Name=OneDrive
+GenericName=OneDrive
+Comment=OneDrive
+Type=Application
+Icon=${SNAP}/meta/gui/onedrive.png
+Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/epiphany_epiphany.desktop /snap/bin/epiphany --application-mode https://onedrive.live.com/
+StartupNotify=true
+Terminal=false
+Keywords=OneDrive,files,cloud,photos
+Categories=Office;FileTransfer;GTK

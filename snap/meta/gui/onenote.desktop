@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=3.0
+Name=OneNote
+GenericName=OneNote
+Comment=OneNote
+Type=Application
+Icon=${SNAP}/meta/gui/onenote.png
+Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/epiphany_epiphany.desktop /snap/bin/epiphany --application-mode https://www.onenote.com/notebooks
+StartupNotify=true
+Terminal=false
+Keywords=OneNote,note,notes,notepad
+Categories=Office;ProjectManagement;GTK

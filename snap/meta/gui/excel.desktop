@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=3.0
+Name=Excel
+GenericName=Excel
+Comment=Excel
+Type=Application
+Icon=${SNAP}/meta/gui/excel.png
+Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/epiphany_epiphany.desktop /snap/bin/epiphany --application-mode https://www.office.com/launch/excel
+StartupNotify=true
+Terminal=false
+Keywords=Excel,spreadsheet
+Categories=Office;Spreadsheet;GTK

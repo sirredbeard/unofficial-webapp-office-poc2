@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=3.0
+Name=Outlook
+GenericName=Outlook
+Comment=Outlook
+Type=Application
+Icon=${SNAP}/meta/gui/outlook.png
+Exec=env BAMF_DESKTOP_FILE_HINT=/var/lib/snapd/desktop/applications/epiphany_epiphany.desktop /snap/bin/epiphany --application-mode https://outlook.live.com/mail/0/inbox
+StartupNotify=true
+Terminal=false
+Keywords=Outlook,mail,email,calendar,contacts
+Categories=Office;Email;Calendar;ContactManagement;GTK
