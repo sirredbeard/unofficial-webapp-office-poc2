@@ -81,6 +81,7 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           snapcraft remote-build --launchpad-accept-public-upload --build-on=arm64
+        continue-on-error: true
 
       - name: Upload build log
         uses: actions/upload-artifact@v2.2.1
@@ -167,6 +168,7 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           snapcraft remote-build --launchpad-accept-public-upload --build-on=amd64
+        continue-on-error: true
 
       - name: Upload build log
         uses: actions/upload-artifact@v2.2.1
