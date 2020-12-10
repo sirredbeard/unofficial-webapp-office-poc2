@@ -13,18 +13,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-  #    - name: Install snapcraft
-  #      run: sudo snap install snapcraft --classic
+      - name: Install LXD
+        run: |
+          sudo snap install lxd
+          sudo usermod --append --groups lxd $(whoami)
+          sudo lxd init --auto
 
   #    - name: Install multipass
   #      run: |
   #        sudo snap install multipass --classic
        
-      - name: Upgrade Snapcraft container to Bionic
-        run: |
-          sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list
-          sudo apt-get -y update
-          sudo apt-get -y dist-upgrade -o APT::Immediate-Configure=0
+  #    - name: Upgrade Snapcraft container to Bionic
+  #      run: |
+  #        sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list
+  #        sudo apt-get -y update
+  #        sudo apt-get -y dist-upgrade -o APT::Immediate-Configure=0
 
       - name: Download upstream epiphany snap
         run: snap download epiphany
@@ -44,7 +47,7 @@ jobs:
           
       - name: Build modified snapcraft.yaml
         run: |
-          snapcraft build
+          snapcraft build --use-lxd
 
       - name: Push .snap to Snapcraft.io
         env:
