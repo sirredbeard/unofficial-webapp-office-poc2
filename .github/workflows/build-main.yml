@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     container:
       image: sirredbeard/snap-build
 
@@ -26,8 +26,11 @@ jobs:
 
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
         run: |
-          sed '/      cp/d' epiphany-snapcraft >> epiphany-snapcraft-2
-          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft-2 >> snapcraft.yaml
+          sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
+          sed -i '/adopt-info: epiphany/d' epiphany-snapcraft
+          sed -i 's/summary: Web browser for GNOME/summary: unofficial-webapp-office based on GNOME Web/g' epiphany-snapcraft
+          sed -i '/      cp/d' epiphany-snapcraft
+          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
           
       - name: Build snap on Launchpad using remote-build
         env:
