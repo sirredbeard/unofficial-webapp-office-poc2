@@ -7,17 +7,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: snapcore/snapcraft:edge
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install snapcraft
-        run: sudo snap install snapcraft --classic
+  #    - name: Install snapcraft
+  #      run: sudo snap install snapcraft --classic
 
-      - name: Install multipass
-        run: |
-          sudo snap install multipass --classic
-          sudo chmod 766 /var/snap/multipass/common/multipass_socket
+  #    - name: Install multipass
+  #      run: |
+  #        sudo snap install multipass --classic
 
       - name: Download upstream epiphany snap
         run: snap download epiphany
