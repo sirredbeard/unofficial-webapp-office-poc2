@@ -19,11 +19,10 @@ jobs:
       - name: Mount epiphany snap
         run: |
           snapfile=$(ls | grep .snap)
-          mkdir /epiphanysnap
-          sudo mount -t squashfs -o ro $snapfile /epiphanysnap
+          unsquashfs -d epiphanysnap $snapfile
           
       - name: Extract epiphany snapcraft.yaml
-        run: cp /tmp/epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
+        run: cp /epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
 
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
         run: |
