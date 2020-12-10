@@ -17,7 +17,7 @@ jobs:
       - name: Install multipass
         run: |
           sudo snap install multipass --classic
-          usermod -a -G adm $(id -u -n)
+          sudo usermod -a -G adm $(id -u -n)
 
       - name: Download upstream epiphany snap
         run: snap download epiphany
