@@ -31,7 +31,7 @@ jobs:
           
       - name: Build modified snapcraft.yaml
         run: |
-          snapcraft build --use-lxd
+          snapcraft build
 
       - name: Push .snap to Snapcraft.io
         env:
