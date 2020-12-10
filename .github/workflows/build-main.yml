@@ -23,8 +23,8 @@ jobs:
       - name: Upgrade Snapcraft container to Groovy
         run: |
           sudo sed -i 's/xenial/groovy/g' /etc/apt/sources.list
-          sudo apt-get update
-          sudo apt-get dist-upgrade -o APT::Immediate-Configure=0
+          sudo apt-get -y update
+          sudo apt-get -y dist-upgrade -o APT::Immediate-Configure=0
 
       - name: Download upstream epiphany snap
         run: snap download epiphany
