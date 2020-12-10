@@ -20,9 +20,9 @@ jobs:
   #      run: |
   #        sudo snap install multipass --classic
        
-      - name: Upgrade Snapcraft container to Groovy
+      - name: Upgrade Snapcraft container to Bionic
         run: |
-          sudo sed -i 's/xenial/groovy/g' /etc/apt/sources.list
+          sudo sed -i 's/xenial/bionic/g' /etc/apt/sources.list
           sudo apt-get -y update
           sudo apt-get -y dist-upgrade -o APT::Immediate-Configure=0
 
