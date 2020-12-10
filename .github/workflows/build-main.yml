@@ -1,0 +1,43 @@
+name: build-main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: snapcore/snapcraft
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download epiphany snap
+        run: snap download epiphany
+
+      - name: Mount epiphany snap
+        run: |
+          snapfile=$(ls | grep .snap)
+          mkdir /tmp/epiphanysnap
+          sudo mount -t squashfs -o ro $snapfile /tmp/epiphanysnap
+          
+      - name: Extract epiphany snapcraft.yaml
+        run: cp /tmp/epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
+
+      - name: Patch epiphany-snapcraft creating snapcraft.yaml
+        run: |
+          sed '/      cp/d' epiphany-snapcraft >> epiphany-snapcraft-2
+          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft-2 >> snapcraft.yaml
+          
+      - name: Build modified snapcraft.yaml
+        run: |
+          snapcraft build --use-lxd
+
+      - name: Push .snap to Snapcraft.io
+        env:
+          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
+        run: |
+          mkdir .snapcraft
+          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
+          snapcraft push --release=candidate *.snap
