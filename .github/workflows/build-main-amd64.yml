@@ -27,6 +27,7 @@ jobs:
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
         run: |
           sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
+          sed -i "s/adopt-info: epiphany/version: '3.0'/g" epiphany-snapcraft
           sed -i 's/summary: Web browser for GNOME/summary: unofficial-webapp-office based on GNOME Web/g' epiphany-snapcraft
           sed -i '/passthrough:/d' epiphany-snapcraft
           sed -i '/  license: GPL-3.0+/d' epiphany-snapcraft
@@ -44,7 +45,7 @@ jobs:
           echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
-          snapcraft remote-build --launchpad-accept-public-upload --build-on=arm64,armhf,amd64,i386
+          snapcraft remote-build --launchpad-accept-public-upload --build-on=amd64
 
       - name: Push .snap to Snapcraft.io
         env:
