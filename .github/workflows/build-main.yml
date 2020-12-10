@@ -28,6 +28,11 @@ jobs:
         run: |
           sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
           sed -i 's/summary: Web browser for GNOME/summary: unofficial-webapp-office based on GNOME Web/g' epiphany-snapcraft
+          sed -i '/passthrough:/d' epiphany-snapcraft
+          sed -i '/  license: GPL-3.0+/d' epiphany-snapcraft
+          sed -i '/  title: GNOME Web/d' epiphany-snapcraft
+          sed -i 's/  epiphany:/  unofficial-webapp-office:/g' epiphany-snapcraft
+          sed -i '/    desktop: usr\/share\/applications\/org.gnome.Epiphany.desktop/d' epiphany-snapcraft
           sed -i '/      cp/d' epiphany-snapcraft
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
           
