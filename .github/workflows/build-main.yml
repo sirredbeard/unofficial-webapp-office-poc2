@@ -65,7 +65,7 @@ jobs:
           # Don't move generic epiphany .desktop and icons into place
           sed -i '/      cp/d' epiphany-snapcraft
           
-          # Prune some help files that are symlinked outside of the snap
+          # Prune some help files that were symlinked outside of the snap
           echo "      - -usr/share/help*" >> epiphany-snapcraft
           
           # Don't create that folder, we don't need it
@@ -143,7 +143,7 @@ jobs:
           # Don't move generic epiphany .desktop and icons into place
           sed -i '/      cp/d' epiphany-snapcraft
           
-          # Prune some help files that are symlinked outside of the snap
+          # Prune some help files that were symlinked outside of the snap
           echo "      - -usr/share/help*" >> epiphany-snapcraft
           
           # Don't create that folder, we don't need it
