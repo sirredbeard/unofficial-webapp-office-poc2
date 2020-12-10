@@ -2,7 +2,7 @@ name: build-main-arm64
 
 on:
   push:
-    branches: [ arm64 ]
+    branches: [ main ]
 
 jobs:
   build:
