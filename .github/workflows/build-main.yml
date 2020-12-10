@@ -33,7 +33,7 @@ jobs:
           
           # Changes below should match the amd64 changes
 
-                    # Change name
+          # Change name
           sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
           
           # Change version
@@ -45,7 +45,7 @@ jobs:
           # Change passthrough title
           sed -i 's/  title: GNOME Web/  title: unofficial-webapp-office/g' epiphany-snapcraft
           
-          # Remove random epiphany part left over, do line number until we figure out pattern matching with blank lines
+          # Remove random part left over, do line number until we figure out pattern matching with blank lines
           sed -e '39d' epiphany-snapcraft
           
           # Disable dbus slots
@@ -123,7 +123,7 @@ jobs:
           # Change passthrough title
           sed -i 's/  title: GNOME Web/  title: unofficial-webapp-office/g' epiphany-snapcraft
           
-          # Remove random epiphany part left over, do line number until we figure out pattern matching with blank lines
+          # Remove random part left over, do line number until we figure out pattern matching with blank lines
           sed -e '39d' epiphany-snapcraft
           
           # Disable dbus slots
