@@ -22,7 +22,7 @@ jobs:
           unsquashfs -d epiphanysnap $snapfile
           
       - name: Extract upstream epiphany snapcraft.yaml to epiphany-snapcraft
-        run: cp epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
+        run: cp epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft 
 
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
         run: |
