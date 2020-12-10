@@ -15,7 +15,9 @@ jobs:
         run: sudo snap install snapcraft --classic
 
       - name: Install multipass
-        run: sudo snap install multipass --classic
+        run: |
+          sudo snap install multipass --classic
+          sudo chown user:users /var/snap/multipass/common/multipass_socket
 
       - name: Download upstream epiphany snap
         run: snap download epiphany
