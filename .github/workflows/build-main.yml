@@ -16,13 +16,13 @@ jobs:
       - name: Download epiphany snap
         run: snap download epiphany
 
-      - name: Mount epiphany snap
+      - name: Extract epiphany snap
         run: |
           snapfile=$(ls | grep .snap)
           unsquashfs -d epiphanysnap $snapfile
           
       - name: Extract epiphany snapcraft.yaml
-        run: cp /epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
+        run: cp epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
 
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
         run: |
