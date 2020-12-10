@@ -24,6 +24,7 @@ jobs:
         run: |
           sudo sed -i 's/xenial/groovy/g' /etc/apt/sources.list
           sudo apt update
+          sudo apt -y upgrade libc6
           sudo apt -y dist-upgrade
 
       - name: Download upstream epiphany snap
