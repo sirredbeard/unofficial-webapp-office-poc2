@@ -66,7 +66,8 @@ jobs:
           sed -i '/      cp/d' epiphany-snapcraft
           
           # Prune some help files that were symlinked outside of the snap
-          echo "      - -usr/share/help*" >> epiphany-snapcraft
+          echo "      - -usr/share/help/*" >> epiphany-snapcraft
+          echo "      - -snap/epiphany/current/usr/share/help/*" >> epiphany-snapcraft
           
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
@@ -81,6 +82,13 @@ jobs:
           git config --global user.name "Your Name"
           snapcraft remote-build --launchpad-accept-public-upload --build-on=arm64
 
+      - name: Upload build log
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: unofficial-webapp-office_arm64.txt
+          path: unofficial-webapp-office_arm64.txt
+          retention-days: 1
+      
       - name: Push .snap to Snapcraft.io
         env:
           SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
@@ -144,7 +152,8 @@ jobs:
           sed -i '/      cp/d' epiphany-snapcraft
           
           # Prune some help files that were symlinked outside of the snap
-          echo "      - -usr/share/help*" >> epiphany-snapcraft
+          echo "      - -usr/share/help/*" >> epiphany-snapcraft
+          echo "      - -snap/epiphany/current/usr/share/help/*" >> epiphany-snapcraft
           
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml        
@@ -158,6 +167,13 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           snapcraft remote-build --launchpad-accept-public-upload --build-on=amd64
+
+      - name: Upload build log
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: unofficial-webapp-office_amd64.txt
+          path: unofficial-webapp-office_amd64.txt
+          retention-days: 1
 
       - name: Push .snap to Snapcraft.io
         env:
