@@ -33,7 +33,7 @@ jobs:
           
           # Changes below should match the amd64 changes
 
-          # Change name
+                    # Change name
           sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
           
           # Change version
@@ -45,17 +45,19 @@ jobs:
           # Change passthrough title
           sed -i 's/  title: GNOME Web/  title: unofficial-webapp-office/g' epiphany-snapcraft
           
+          # Remove random epiphany part left over, do line number until we figure out pattern matching with blank lines
+          sed -e '39d' epiphany-snapcraft
+          
           # Disable dbus slots
           sed -i '/slots:/d' epiphany-snapcraft
           sed -i '/  # for GtkApplication registration/d' epiphany-snapcraft
-          sed -i '/  epiphany:/d' epiphany-snapcraft
           sed -i '/    interface: dbus/d' epiphany-snapcraft
           sed -i '/    bus: session/d' epiphany-snapcraft
           sed -i '/    name: org.gnome.Epiphany/d' epiphany-snapcraft
           
           # Rename epiphany parts
           sed -i 's/  epiphany:/  unofficial-webapp-office:/g' epiphany-snapcraft
-          sed -i 's/      snap/epiphany\/current\/usr: usr/      snap\/unofficial-webapp-office\/current\/usr: usr/g' epiphany-snapcraft
+          sed -i 's/      snap\/epiphany\/current\/usr: usr/      snap\/unofficial-webapp-office\/current\/usr: usr       /g' epiphany-snapcraft
           
           # Remove epiphany .desktop files in favor of our own in /gui/
           sed -i '/    desktop: usr\/share\/applications\/org.gnome.Epiphany.desktop/d' epiphany-snapcraft
@@ -145,7 +147,7 @@ jobs:
           echo "      - -usr/share/help*" >> epiphany-snapcraft
           
           # Don't create that folder, we don't need it
-          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml         
+          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml        
           
       - name: Build snap on Launchpad using remote-build
         env:
