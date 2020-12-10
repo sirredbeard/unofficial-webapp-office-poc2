@@ -26,19 +26,47 @@ jobs:
         run: cp epiphanysnap/snap/snapcraft.yaml epiphany-snapcraft
 
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
-        run: |
-          sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
-          sed -i "s/adopt-info: epiphany/version: '3.0'/g" epiphany-snapcraft
-          sed -i 's/summary: Web browser for GNOME/summary: unofficial-webapp-office based on GNOME Web/g' epiphany-snapcraft
-          sed -i '/passthrough:/d' epiphany-snapcraft
-          sed -i '/  license: GPL-3.0+/d' epiphany-snapcraft
-          sed -i '/  title: GNOME Web/d' epiphany-snapcraft
-          sed -i 's/  epiphany:/  unofficial-webapp-office:/g' epiphany-snapcraft
-          sed -i '/    desktop: usr\/share\/applications\/org.gnome.Epiphany.desktop/d' epiphany-snapcraft
-          sed -i '/      cp/d' epiphany-snapcraft
+        run: |     
+          # ARM64-specific changes
           sed -i '/      - gcc-multilib/d' epiphany-snapcraft
           sed -i '/      - g++-multilib/d' epiphany-snapcraft
+          
+          # Changes below should match the amd64 changes
+
+          # Change name
+          sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
+          
+          # Change version
+          sed -i "s/adopt-info: epiphany/version: '3.0'/g" epiphany-snapcraft
+          
+          # Change summary
+          sed -i 's/summary: Web browser for GNOME/summary: unofficial-webapp-office based on GNOME Web/g' epiphany-snapcraft
+          
+          # Change passthrough title
+          sed -i 's/  title: GNOME Web/  title: unofficial-webapp-office/g' epiphany-snapcraft
+          
+          # Disable dbus slots
+          sed -i '/slots:/d' epiphany-snapcraft
+          sed -i '/  # for GtkApplication registration/d' epiphany-snapcraft
+          sed -i '/  epiphany:/d' epiphany-snapcraft
+          sed -i '/    interface: dbus/d' epiphany-snapcraft
+          sed -i '/    bus: session/d' epiphany-snapcraft
+          sed -i '/    name: org.gnome.Epiphany/d' epiphany-snapcraft
+          
+          # Rename epiphany parts
+          sed -i 's/  epiphany:/  unofficial-webapp-office:/g' epiphany-snapcraft
+          sed -i 's/      snap/epiphany\/current\/usr: usr/      snap\/unofficial-webapp-office\/current\/usr: usr/g' epiphany-snapcraft
+          
+          # Remove epiphany .desktop files in favor of our own in /gui/
+          sed -i '/    desktop: usr\/share\/applications\/org.gnome.Epiphany.desktop/d' epiphany-snapcraft
+          
+          # Don't move generic epiphany .desktop and icons into place
+          sed -i '/      cp/d' epiphany-snapcraft
+          
+          # Prune some help files that are symlinked outside of the snap
           echo "      - -usr/share/help*" >> epiphany-snapcraft
+          
+          # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
           
       - name: Build snap on Launchpad using remote-build
@@ -81,7 +109,7 @@ jobs:
 
       - name: Patch epiphany-snapcraft creating snapcraft.yaml
         run: |
-          # Change version
+          # Change name
           sed -i 's/name: epiphany/name: unofficial-webapp-office/g' epiphany-snapcraft
           
           # Change version
@@ -93,16 +121,19 @@ jobs:
           # Change passthrough title
           sed -i 's/  title: GNOME Web/  title: unofficial-webapp-office/g' epiphany-snapcraft
           
+          # Remove random epiphany part left over, do line number until we figure out pattern matching with blank lines
+          sed -e '39d' epiphany-snapcraft
+          
           # Disable dbus slots
           sed -i '/slots:/d' epiphany-snapcraft
           sed -i '/  # for GtkApplication registration/d' epiphany-snapcraft
-          sed -i '/  epiphany:/d' epiphany-snapcraft
           sed -i '/    interface: dbus/d' epiphany-snapcraft
           sed -i '/    bus: session/d' epiphany-snapcraft
           sed -i '/    name: org.gnome.Epiphany/d' epiphany-snapcraft
           
           # Rename epiphany parts
           sed -i 's/  epiphany:/  unofficial-webapp-office:/g' epiphany-snapcraft
+          sed -i 's/      snap\/epiphany\/current\/usr: usr/      snap\/unofficial-webapp-office\/current\/usr: usr       /g' epiphany-snapcraft
           
           # Remove epiphany .desktop files in favor of our own in /gui/
           sed -i '/    desktop: usr\/share\/applications\/org.gnome.Epiphany.desktop/d' epiphany-snapcraft
@@ -114,7 +145,7 @@ jobs:
           echo "      - -usr/share/help*" >> epiphany-snapcraft
           
           # Don't create that folder, we don't need it
-          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
+          grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml         
           
       - name: Build snap on Launchpad using remote-build
         env:
