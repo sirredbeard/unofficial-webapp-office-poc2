@@ -72,7 +72,14 @@ jobs:
           
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
-          
+
+      - name: Upload snapcraft_amd64.yaml
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: snapcraft_amd64.yaml
+          path: snapcraft.yaml
+          retention-days: 1
+
       - name: Build snap on Launchpad using remote-build
         env:
           REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
@@ -159,6 +166,13 @@ jobs:
           
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml        
+
+      - name: Upload snapcraft_arm64.yaml
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: snapcraft_arm64.yaml
+          path: snapcraft.yaml
+          retention-days: 1
           
       - name: Build snap on Launchpad using remote-build
         env:
