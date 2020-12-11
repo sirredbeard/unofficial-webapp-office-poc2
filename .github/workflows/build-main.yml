@@ -73,38 +73,38 @@ jobs:
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
 
-      - name: Upload snapcraft_amd64.yaml
+      - name: Upload snapcraft_arm64.yaml
         uses: actions/upload-artifact@v2.2.1
         with:
-          name: snapcraft_amd64.yaml
+          name: snapcraft_arm64.yaml
           path: snapcraft.yaml
           retention-days: 1
 
-      - name: Build snap on Launchpad using remote-build
-        env:
-          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
-        run: |        
-          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
-          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
-          snapcraft remote-build --launchpad-accept-public-upload --build-on=arm64
-        continue-on-error: true
+#      - name: Build snap on Launchpad using remote-build
+#        env:
+#          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
+#        run: |        
+#          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
+#          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
+#          git config --global user.email "you@example.com"
+#          git config --global user.name "Your Name"
+#          snapcraft remote-build --launchpad-accept-public-upload --build-on=arm64
+#        continue-on-error: true
 
-      - name: Upload build log
-        uses: actions/upload-artifact@v2.2.1
-        with:
-          name: unofficial-webapp-office_arm64.txt
-          path: unofficial-webapp-office_arm64.txt
-          retention-days: 1
+#      - name: Upload build log
+#        uses: actions/upload-artifact@v2.2.1
+#        with:
+#          name: unofficial-webapp-office_arm64.txt
+#          path: unofficial-webapp-office_arm64.txt
+#          retention-days: 1
       
-      - name: Push .snap to Snapcraft.io
-        env:
-          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
-        run: |
-          mkdir .snapcraft
-          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
-          snapcraft upload --release=edge *.snap
+#      - name: Push .snap to Snapcraft.io
+#        env:
+#          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
+#        run: |
+#          mkdir .snapcraft
+#          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
+#          snapcraft upload --release=edge *.snap
 
   build-amd64:
     runs-on: ubuntu-20.04
@@ -167,35 +167,35 @@ jobs:
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml        
 
-      - name: Upload snapcraft_arm64.yaml
+      - name: Upload snapcraft_amd64.yaml
         uses: actions/upload-artifact@v2.2.1
         with:
-          name: snapcraft_arm64.yaml
+          name: snapcraft_amd64.yaml
           path: snapcraft.yaml
           retention-days: 1
           
-      - name: Build snap on Launchpad using remote-build
-        env:
-          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
-        run: |        
-          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
-          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
-          snapcraft remote-build --launchpad-accept-public-upload --build-on=amd64
-        continue-on-error: true
+#      - name: Build snap on Launchpad using remote-build
+#        env:
+#          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
+#        run: |        
+#          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
+#          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
+#          git config --global user.email "you@example.com"
+#          git config --global user.name "Your Name"
+#          snapcraft remote-build --launchpad-accept-public-upload --build-on=amd64
+#        continue-on-error: true
 
-      - name: Upload build log
-        uses: actions/upload-artifact@v2.2.1
-        with:
-          name: unofficial-webapp-office_amd64.txt
-          path: unofficial-webapp-office_amd64.txt
-          retention-days: 1
+#      - name: Upload build log
+#        uses: actions/upload-artifact@v2.2.1
+#        with:
+#          name: unofficial-webapp-office_amd64.txt
+#          path: unofficial-webapp-office_amd64.txt
+#          retention-days: 1
 
-      - name: Push .snap to Snapcraft.io
-        env:
-          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
-        run: |
-          mkdir .snapcraft
-          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
-          snapcraft upload --release=edge *.snap
+#      - name: Push .snap to Snapcraft.io
+#        env:
+#          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
+#        run: |
+#          mkdir .snapcraft
+#          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
+#          snapcraft upload --release=edge *.snap
