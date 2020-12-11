@@ -174,28 +174,28 @@ jobs:
           path: snapcraft.yaml
           retention-days: 1
           
-#      - name: Build snap on Launchpad using remote-build
-#        env:
-#          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
-#        run: |        
-#          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
-#          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
-#          git config --global user.email "you@example.com"
-#          git config --global user.name "Your Name"
-#          snapcraft remote-build --launchpad-accept-public-upload --build-on=amd64
-#        continue-on-error: true
+      - name: Build snap on Launchpad using remote-build
+        env:
+          REMOTE_BUILD_CREDENTIALS: ${{ secrets.REMOTE_BUILD_CREDENTIALS }}
+        run: |        
+          mkdir -p $HOME/.local/share/snapcraft/provider/launchpad/
+          echo ${REMOTE_BUILD_CREDENTIALS} | base64 --decode --ignore-garbage > $HOME/.local/share/snapcraft/provider/launchpad/credentials
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          snapcraft remote-build --launchpad-accept-public-upload --build-on=amd64
+        continue-on-error: true
 
-#      - name: Upload build log
-#        uses: actions/upload-artifact@v2.2.1
-#        with:
-#          name: unofficial-webapp-office_amd64.txt
-#          path: unofficial-webapp-office_amd64.txt
-#          retention-days: 1
+      - name: Upload build log
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          name: unofficial-webapp-office_amd64.txt
+          path: unofficial-webapp-office_amd64.txt
+          retention-days: 1
 
-#      - name: Push .snap to Snapcraft.io
-#        env:
-#          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
-#        run: |
-#          mkdir .snapcraft
-#          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
-#          snapcraft upload --release=edge *.snap
+      - name: Push .snap to Snapcraft.io
+        env:
+          SNAPCRAFT_LOGIN_FILE: ${{ secrets.SNAPCRAFT_LOGIN_FILE }}
+        run: |
+          mkdir .snapcraft
+          echo ${SNAPCRAFT_LOGIN_FILE} | base64 --decode --ignore-garbage > .snapcraft/snapcraft.cfg
+          snapcraft upload --release=edge *.snap
