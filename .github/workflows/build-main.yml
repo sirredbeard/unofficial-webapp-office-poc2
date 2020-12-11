@@ -68,7 +68,7 @@ jobs:
           echo "      - -snap/epiphany/current/usr/share/help/*" >> epiphany-snapcraft
           
           # Remove random part left over, do line number until we figure out pattern matching with blank lines
-          sed -i '39d' epiphany-snapcraft          
+          sed -i '21d' epiphany-snapcraft          
           
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml
@@ -162,7 +162,7 @@ jobs:
           echo "      - -snap/epiphany/current/usr/share/help/*" >> epiphany-snapcraft
           
           # Remove random part left over, do line number until we figure out pattern matching with blank lines
-          sed -i '39d' epiphany-snapcraft          
+          sed -i '21d' epiphany-snapcraft          
           
           # Don't create that folder, we don't need it
           grep -v '^      mkdir -p $SNAPCRAFT_PART_INSTALL/meta/gui/' epiphany-snapcraft >> snapcraft.yaml        
